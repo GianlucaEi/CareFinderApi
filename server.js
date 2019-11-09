@@ -1,41 +1,72 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+/**
+ * server.js - Set up a server
+ * @type {Parsers|*}
+ */
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+/*
+ * Provides a way of working with directories and file paths
+ * https://www.npmjs.com/package/path
+ */
+const path = require('path');
 
-var server = express();
-
-// view engine setup
-server.set('views', path.join(__dirname, 'views'));
-server.set('view engine', 'pug');
-
-server.use(logger('dev'));
+/*
+ * This is an express server
+ * https://www.npmjs.com/package/express
+ */
+const express = require('express');
+const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
-server.use(cookieParser());
 server.use(express.static(path.join(__dirname, 'public')));
 
-server.use('/', indexRouter);
-server.use('/users', usersRouter);
+/*
+ * Middleware for parsing the request body
+ * https://www.npmjs.com/package/body-parser
+ */
+const bodyParser = require('body-parser')
+server.use(bodyParser.json())
 
-// catch 404 and forward to error handler
-server.use(function(req, res, next) {
-  next(createError(404));
-});
+/*
+ * Set various HTTP headers to help secure the server
+ * https://www.npmjs.com/package/helmet
+ */
+const helmet = require('helmet')
+server.use(helmet())
 
-// error handler
-server.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+/*
+ * Ruby-like logger for logging messages
+ * https://www.npmjs.com/package/logger
+ */
+const logger = require('morgan');
+server.use(logger('dev'));
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+/*
+ * Database object modelling
+ * https://www.npmjs.com/package/mongoose
+ */
+const mongoose = require('mongoose');
 
+// Connect to the Mongo database
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+
+// Set up the routes
+// -----------------
+
+const apiRoutes = require('./src/routes');
+
+server.use('/api', apiRoutes);
+
+// Handle errors
+// -------------
+
+const errorHandlers = require('./src/middleware/error-handlers');
+
+// Catch all invalid routes
+server.use(errorHandlers.invalidRoute);
+
+// Handle mongoose errors
+server.use(errorHandlers.validationErrors);
+
+// Export the server object
 module.exports = server;
