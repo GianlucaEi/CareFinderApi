@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-var hospitalRoutes = require('./hospital-routes');
-var authRoutes = require('./user-routes');
+let hospitalRoutes = require('./hospital-routes');
+let authRoutes = require('./user-routes');
 
 router.use('/hospitals', hospitalRoutes);
 router.use('/auth', authRoutes);
