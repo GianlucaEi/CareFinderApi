@@ -25,8 +25,9 @@ server.use(logger('dev'));
 const mongoose = require('mongoose');
 
 // Connect to the Mongo database
+
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI_TWO, { useNewUrlParser: true,  useUnifiedTopology: true })
 
 const apiRoutes = require('./src/routes');
 server.use('/api', apiRoutes);

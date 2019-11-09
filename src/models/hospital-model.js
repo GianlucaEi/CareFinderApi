@@ -3,4 +3,4 @@ const schema = moongoose.Schema;
 
 const definition = new schema ({
 
-})
+});
