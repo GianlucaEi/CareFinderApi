@@ -16,4 +16,4 @@ const options = {
 
 const Schema = new moongoose.Schema(definition, options);
 
-module.exports = moongoose.model('user',Schema);
+module.exports = moongoose.model('users',Schema);
