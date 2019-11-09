@@ -9,9 +9,10 @@
     "body-parser": "latest",
     "express": "latest",
     "mongoose": "^5.7.9",
-    "morgan": "latest"
+    "morgan": "latest",
+    "dotenv": "^8.2.0",
+    "helmet": "^3.21.2"
   },
   "devDependencies": {
-    "helmet": "^3.21.2"
   }
 }

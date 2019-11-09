@@ -15,6 +15,8 @@ const path = require('path');
  */
 const express = require('express');
 const server = express();
+require('dotenv').config();
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(express.static(path.join(__dirname, 'public')));
@@ -30,8 +32,8 @@ server.use(bodyParser.json())
  * Set various HTTP headers to help secure the server
  * https://www.npmjs.com/package/helmet
  */
-const helmet = require('helmet')
-server.use(helmet())
+const helmet = require('helmet');
+server.use(helmet());
 
 /*
  * Ruby-like logger for logging messages
@@ -48,11 +50,10 @@ const mongoose = require('mongoose');
 
 // Connect to the Mongo database
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
 
 // Set up the routes
 // -----------------
-
 const apiRoutes = require('./src/routes');
 
 server.use('/api', apiRoutes);
