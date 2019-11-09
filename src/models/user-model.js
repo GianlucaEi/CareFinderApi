@@ -12,7 +12,7 @@ const definition = new schema ({
 
 const options = {
     timestamp: true
-}
+};
 
 const Schema = new moongoose.Schema(definition, options);
 

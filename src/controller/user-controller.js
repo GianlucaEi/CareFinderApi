@@ -1,7 +1,7 @@
 const User = require('../models/user-model');
-let jwt = require('jsonweb«token');
+let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
-let config = require('../../config');
+let config = require('../config/config');
 
 exports.store = async (req, res) => {
     await User.insert(req.body);
@@ -23,7 +23,7 @@ exports.me = async (req, res) => {
             expiresIn: 86400 // expires in 24 hours
         });
         res.status(200).send({auth: true, token: token});
-    });
+    }).catch(reason => res.send(reason));
 };
 
 exports.login = async (req, res) => {
@@ -36,7 +36,7 @@ exports.login = async (req, res) => {
             expiresIn: 86400 // expires in 24 hours
         });
         res.status(200).send({auth: true, token: token});
-    });
+    }).catch(reason => res.send(reason));
 };
 
 exports.logout = async (req, res) => {
@@ -59,5 +59,3 @@ exports.deleteSpecificUser = async (req, res) => {
     }).exec();
     res.status(204).send()
 };
-
-module.exports = router;

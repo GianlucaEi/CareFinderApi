@@ -1,4 +1,4 @@
-const Hospital = require('../models/hospitals');
+const Hospital = require('../models/hospital-model');
 
 exports.store = async (req, res) => {
     await Hospital.insertMany(req.body);
