@@ -1,5 +1,3 @@
-var jwt = require('jsonwebtoken');
-var config = require('../config/config');
 var User = require('../models/user-model');
 
 async function verifyAdmin(req, res, next) {
