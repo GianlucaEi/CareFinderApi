@@ -1,4 +1,4 @@
-var moongoose = require('mongoose');
+let moongoose = require('mongoose');
 const schema = moongoose.Schema;
 const errorMessages = require('../middleware/error-messages');
 
