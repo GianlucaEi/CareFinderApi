@@ -4,26 +4,21 @@ let bcrypt = require('bcryptjs');
 let config = require('../config/config');
 
 exports.store = async (req, res) => {
-    await User.insert(req.body);
-    res.status(201).json({data: User})
-};
-
-exports.me = async (req, res) => {
     let hashedPassword = bcrypt.hashSync(req.body.password, 8);
     
-    await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-        admin: req.body.admin
-    }).then(function (err, user) {
-        if (err) return res.status(500).send("There was a problem registering the user.");
+    const user = new User(req.body);
+    user.password = hashedPassword;
+    await user.save().then(() => {
         // create a token
         let token = jwt.sign({id: user._id}, config.secret, {
             expiresIn: 86400 // expires in 24 hours
         });
         res.status(200).send({auth: true, token: token});
     }).catch(reason => res.send(reason));
+};
+
+exports.me = async (req, res) => {
+
 };
 
 exports.login = async (req, res) => {

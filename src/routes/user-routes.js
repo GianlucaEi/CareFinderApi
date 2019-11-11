@@ -15,7 +15,7 @@ router.get('/getAllUsers', verifyToken, verifyAdmin, userController.getAllUser);
  * Router post routes
  */
 router.post('/register', userController.store);
-router.post('/registerAdmin', verifyToken, verifyAdmin, userController.store);
+//router.post('/registerAdmin', verifyToken, verifyAdmin, userController.store);
 router.post('/login', userController.login);
 
 /**
