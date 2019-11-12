@@ -10,7 +10,7 @@ router.get('/id/:providerId', VerifyToken, hospitalController.lookupByProviderId
 router.get('/city/:cityName', VerifyToken, hospitalController.lookupByCity);
 router.get('/state/:stateName', VerifyToken, hospitalController.lookupByState);
 router.get('/county/:countyName', VerifyToken, hospitalController.lookupByCounty);
-router.get('/citystate/:cityName/:stateName', VerifyToken, hospitalController.lookupByCityState);
+router.get('/city_state/:cityName/:stateName', VerifyToken, hospitalController.lookupByCityState);
 router.get('/name/:hospitalName', VerifyToken, hospitalController.lookupByHospitalName);
 router.get('/type/:hospitalType', VerifyToken, hospitalController.lookupByHospitalType);
 router.get('/ownership/:hospitalOwner', VerifyToken, hospitalController.lookupByHospitalOwner);
@@ -27,7 +27,7 @@ router.delete('/id/:providerId', VerifyToken, VerifyAdmin, hospitalController.de
 router.delete('/city/:cityName', VerifyToken, VerifyAdmin, hospitalController.deleteByCity);
 router.delete('/state/:stateName', VerifyToken, VerifyAdmin, hospitalController.deleteByState);
 router.delete('/county/:countyName', VerifyToken, VerifyAdmin, hospitalController.deleteByCounty);
-router.delete('/citystate/:cityName/:stateName', VerifyToken, VerifyAdmin, hospitalController.deleteByCityState);
+router.delete('/city_state/:cityName/:stateName', VerifyToken, VerifyAdmin, hospitalController.deleteByCityState);
 router.delete('/name/:hospitalName', VerifyToken, VerifyAdmin, hospitalController.deleteByHospitalName);
 router.delete('/type/:hospitalType', VerifyToken, VerifyAdmin, hospitalController.deleteByHospitalType);
 router.delete('/ownership/:hospitalOwner', VerifyToken, VerifyAdmin, hospitalController.deleteByHospitalOwner);
