@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const userController = require('../controllers/user-controller');
 const verifyToken = require('../auth/verifyToken');
 const verifyAdmin = require('../auth/verifyAdmin');
