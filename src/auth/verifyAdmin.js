@@ -1,4 +1,4 @@
-var User = require('../models/user-model');
+let User = require('../models/user-model');
 
 async function verifyAdmin(req, res, next) {
     

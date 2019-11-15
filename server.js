@@ -15,8 +15,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(express.static(path.join(__dirname, 'public')));
 
-const bodyParser = require('body-parser')
-server.use(bodyParser.json())
+const bodyParser = require('body-parser');
+server.use(bodyParser.json());
 
 const helmet = require('helmet');
 server.use(helmet());
@@ -35,13 +35,11 @@ const apiRoutes = require('./src/routes');
 server.use('/api', apiRoutes);
 server.use('/*', errorHandler.invalidRoute);
 
-const errorHandlers = require('./src/middleware/error-handlers');
-
 // Catch all invalid routes
-server.use(errorHandlers.invalidRoute);
+server.use(errorHandler.invalidRoute);
 
 // Handle mongoose errors
-server.use(errorHandlers.validationErrors);
+server.use(errorHandler.validationErrors);
 
 // Export the server object
 module.exports = server;

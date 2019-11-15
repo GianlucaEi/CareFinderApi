@@ -1,5 +1,5 @@
-var jwt = require('jsonwebtoken');
-var config = require('../config/config');
+let jwt = require('jsonwebtoken');
+let config = require('../config/config');
 let errorHandler = require('../middleware/error-handlers');
 
 function verifyToken(req, res, next) {
