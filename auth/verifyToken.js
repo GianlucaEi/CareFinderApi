@@ -1,6 +1,6 @@
 let jwt = require('jsonwebtoken');
-let config = require('../config/config');
-let errorHandler = require('../middleware/error-handlers');
+let config = require('../src/config/config');
+let errorHandler = require('../src/middleware/error-handlers');
 
 function verifyToken(req, res, next) {
     
