@@ -6,9 +6,11 @@
 const path = require('path');
 const express = require('express');
 const server = express();
+const cors = require("cors");
 require('dotenv').config();
 let errorHandler = require('./src/middleware/error-handlers');
 
+server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(express.static(path.join(__dirname, 'public')));
@@ -27,7 +29,7 @@ const mongoose = require('mongoose');
 // Connect to the Mongo database
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true,  useUnifiedTopology: true }).catch(reason => console.log(reason));
 
 const apiRoutes = require('./src/routes');
 server.use('/api', apiRoutes);

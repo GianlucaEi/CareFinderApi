@@ -25,8 +25,8 @@ exports.me = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
+        console.log(req.body);
         await User.findOne({email: req.body.email}).then(response => {
-            console.info(response);
             //if (err) return res.status(500).send('Error on the server.');
             if (response == null) {
                 return res.status(404).send('No user found.');
