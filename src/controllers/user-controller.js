@@ -1,4 +1,4 @@
-const User = require('../models/user-model');
+const user = require('../models/user-model');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 let config = require('../config/config');
@@ -6,7 +6,7 @@ let config = require('../config/config');
 exports.store = async (req, res) => {
     let hashedPassword = bcrypt.hashSync(req.body.password, 8);
     
-    const user = new User(req.body);
+    const user = new user(req.body);
     user.password = hashedPassword;
     
     await user.save().then(() => {
@@ -19,14 +19,14 @@ exports.store = async (req, res) => {
 };
 
 exports.me = async (req, res) => {
-    const user = await User.find({email: req.body.email}, {password: 0}).exec();
+    const user = await user.find({email: req.body.email}, {password: 0}).exec();
     await res.json(user)
 };
 
 exports.login = async (req, res) => {
     try {
         console.log(req.body);
-        await User.findOne({email: req.body.email}).then(response => {
+        await user.findOne({email: req.body.email}).then(response => {
             //if (err) return res.status(500).send('Error on the server.');
             if (response == null) {
                 return res.status(404).send('No user found.');
@@ -54,20 +54,20 @@ exports.logout = async (req, res) => {
 };
 
 exports.getAllUser = async (req, res) => {
-    const user = await User.find({}, {password: 0}).exec();
+    const user = await user.find({}, {password: 0}).exec();
     await res.json({data: user})
 };
 
 exports.deleteAllUsers = async (req, res) => {
-    const user = await User.find({email: req.body.email}, {password: 0}).exec().catch(reason => console.log(reason));
-    await User.deleteMany({}).exec().catch(reason => console.log(reason));
+    const user = await user.find({email: req.body.email}, {password: 0}).exec().catch(reason => console.log(reason));
+    await user.deleteMany({}).exec().catch(reason => console.log(reason));
     await user.save().then(() => {
-        res.status(200).send("Deleted All Users, except you");
+        res.status(200).send("Deleted All users, except you");
     }).catch(reason => res.send(reason));
 };
 
 exports.deleteSpecificUser = async (req, res) => {
-    await User.deleteMany({
+    await user.deleteMany({
         email: req.params.email
     }).exec()
         .then(res.status(204).send())
