@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 const userController = require('../controllers/user-controller');
-const verifyToken = require('@/src/auth/verifyToken');
-const verifyAdmin = require('@/src/auth/verifyAdmin');
+const verifyToken = require('./src/auth/verifyToken');
+const verifyAdmin = require('./src/auth/verifyAdmin');
 
 /**
  * Router get routes

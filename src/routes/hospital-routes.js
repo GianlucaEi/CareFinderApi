@@ -1,8 +1,8 @@
 let express = require('express');
 let router = express.Router();
 let hospitalController = require('../controllers/hospital-controller');
-let VerifyToken = require('@/src/auth/VerifyToken');
-let VerifyAdmin = require('@/src/auth/VerifyAdmin');
+let VerifyToken = require('./src/auth/VerifyToken');
+let VerifyAdmin = require('./src/auth/VerifyAdmin');
 
 /* GET hospitals listing. */
 router.get('/', VerifyToken, hospitalController.findAllHospitals);
