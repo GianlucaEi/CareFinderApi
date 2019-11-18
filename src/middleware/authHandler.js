@@ -19,11 +19,13 @@ exports.verifyToken = async (req, res, next) => {
             errorHandler.createError(403, 'no-token', res);
         } else {
             jwt.verify(token, config.secret, function (err, decoded) {
-                if (err)
+                if (err) {
                     res.status(401).json({auth: false, message: 'Failed to authenticate token.'});
-                // if everything good, save to request for use in other routes
-                req.userId = decoded.id;
-                next();
+                } else {
+                    // if everything good, save to request for use in other routes
+                    req.userId = decoded.id;
+                    next();
+                }
             });
         }
     } catch (e) {
