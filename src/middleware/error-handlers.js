@@ -66,7 +66,7 @@ exports.production = (err, req, res, next) => {
             error: {}
         })
     }
-}
+};
 
 /**
  * Handle any invalid routes.
@@ -84,34 +84,37 @@ exports.invalidRoute = (req, res) => {
  * Create error with Status & Message
  */
 exports.createError = (status, code, res, message) => {
-    let error = new Error();
-    error.status = status || 500;
-    error.code = code;
-    switch (code) {
-        case "invalid-token" :
-            error.message = "Authentication failed. IdToken is Invalid.";
-            break;
-        case "no-token" :
-            error.message = "No Token in header.";
-            break;
-        case "id-token-revoked" :
-            error.message = "Authentication failed. IdToken has been revoked.";
-            break;
-        case "not-authorized" :
-            error.message = "Not Authorized. Admin Access Required.";
-            break;
-        case "not-found" :
-            error.message = "No Document Found.";
-            break;
-        case "missing-required" :
-            error.message = "Missing Required Fields.";
-            break;
-        case "internal-error" :
-            error.message = "Internal Error Occurred";
-            break;
-        default :
-            error.message = message !== undefined ? message : "Internal Server Error"
+    try {
+        let error = new Error();
+        error.status = status || 500;
+        error.code = code;
+        switch (code) {
+            case "invalid-token" :
+                error.message = "Authentication failed. IdToken is Invalid.";
+                break;
+            case "no-token" :
+                error.message = "No Token in header.";
+                break;
+            case "id-token-revoked" :
+                error.message = "Authentication failed. IdToken has been revoked.";
+                break;
+            case "not-authorized" :
+                error.message = "Not Authorized. Admin Access Required.";
+                break;
+            case "not-found" :
+                error.message = "No Document Found.";
+                break;
+            case "missing-required" :
+                error.message = "Missing Required Fields.";
+                break;
+            case "internal-error" :
+                error.message = "Internal Error Occurred";
+                break;
+            default :
+                error.message = message !== undefined ? message : "Internal Server Error"
+        }
+        return res.status(error.status).send(error)
+    }catch (e) {
+        console.error(e);
     }
-    console.error(error.status, error.code, error.message);
-    return res.status(error.status).send(error)
 };
