@@ -4,20 +4,20 @@ let hospitalController = require('../controllers/hospital-controller');
 const {verifyToken, verifyAdmin} = require('../middleware/authHandler');
 
 /* GET hospitals listing. */
-router.get('/', verifyToken, hospitalController.findAllHospitals);
-router.get('/id/:providerId', verifyToken, hospitalController.lookupByProviderId);
-router.get('/city/:cityName', verifyToken, hospitalController.lookupByCity);
-router.get('/state/:stateName', verifyToken, hospitalController.lookupByState);
-router.get('/county/:countyName', verifyToken, hospitalController.lookupByCounty);
-router.get('/city_state/:cityName/:stateName', verifyToken, hospitalController.lookupByCityState);
-router.get('/name/:hospitalName', verifyToken, hospitalController.lookupByHospitalName);
-router.get('/type/:hospitalType', verifyToken, hospitalController.lookupByHospitalType);
-router.get('/ownership/:hospitalOwner', verifyToken, hospitalController.lookupByHospitalOwner);
-router.get('/emergency/:hospitalEmergency', verifyToken, hospitalController.lookupByHospitalEmergency);
+router.get('/', hospitalController.findAllHospitals);
+router.get('/id/:providerId', hospitalController.lookupByProviderId);
+router.get('/city/:cityName', hospitalController.lookupByCity);
+router.get('/state/:stateName', hospitalController.lookupByState);
+router.get('/county/:countyName', hospitalController.lookupByCounty);
+router.get('/city_state/:cityName/:stateName', hospitalController.lookupByCityState);
+router.get('/name/:hospitalName', hospitalController.lookupByHospitalName);
+router.get('/type/:hospitalType', hospitalController.lookupByHospitalType);
+router.get('/ownership/:hospitalOwner', hospitalController.lookupByHospitalOwner);
+router.get('/emergency/:hospitalEmergency', hospitalController.lookupByHospitalEmergency);
 /* GET hospitals listing end. */
 
 /* POST hospitals listing. */
-router.post('/', hospitalController.store);
+router.post('/', verifyToken, verifyAdmin, hospitalController.store);
 /* POST hospitals listing end. */
 
 /* DELETE hospitals listing. */
@@ -34,7 +34,7 @@ router.delete('/emergency/:hospitalEmergency', verifyToken, verifyAdmin, hospita
 /* DELETE hospitals listing end. */
 
 /* UPDATE hospitals listing. */
-router.put('/id/:providerId', hospitalController.updateById);
+router.put('/id/:providerId', verifyToken, verifyAdmin, hospitalController.updateById);
 /* UPDATE hospitals listing end. */
 
 
