@@ -13,9 +13,8 @@ const definition = new schema ({
     'phone_number': {type: String, trim: true, required: errorMessages.error.MISSING_PHONE_NUMBER},
     'hospital_type': { type: String, trim: true, required: errorMessages.error.MISSING_HOSPITAL_TYPE},
     'hospital_ownership': { type: String, trim: true, required: errorMessages.error.MISSING_HOSPITAL_OWNERSHIP},
-    'emergency_services': { type: String, trim: true, required: errorMessages.error.MISSING_EMERGENCY_SERVICES},
+    'emergency_services': { type: Boolean, trim: true, required: errorMessages.error.MISSING_EMERGENCY_SERVICES},
     'location': {
-        'human_address': { type: String, trim: true, required: errorMessages.error.MISSING_HUMAN_ADDRESS},
         'latitude': { type: String, trim: true, required: errorMessages.error.MISSING_LAT},
         'longitude': { type: String, trim: true, required: errorMessages.error.MISSING_LONG}
     }
