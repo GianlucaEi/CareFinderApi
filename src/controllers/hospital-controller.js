@@ -1,8 +1,64 @@
 const Hospital = require('../models/hospital-model');
 let errorHandler = require("../middleware/error-handlers");
+let convert = require('xml-js');
 
-exports.store = async (req, res) => {
+function newTemplate() {
+    return {
+        'provider_id': '',
+        'hospital_name': '',
+        'address': '',
+        'city': '',
+        'state': '',
+        'zip_code': '',
+        'county_name': '',
+        'phone_number': '',
+        'hospital_type': '',
+        'hospital_ownership': '',
+        'emergency_services': '',
+        'location': {
+            'human_address': '',
+            'latitude': '',
+            'longitude': ''
+        }
+    };
+}
+
+exports.storeJSON = async (req, res) => {
     await Hospital.insertMany(req.body)
+        .then(response => res.json(response))
+        .catch(err => errorHandler.createError(400, err.code, res, err.message))
+};
+
+exports.storeXML = async (req, res) => {
+    let reqXML = req.body.xml;
+    let knownIDs = [];
+    let newHospitals = [];
+    
+    let xmlData = JSON.parse(convert.xml2json(reqXML));
+    let data = xmlData.elements[0].elements[0].elements;
+    for (let i = 0; i < data.length; i++) {
+        let localTemplate = newTemplate();
+        let newData = data[i].elements;
+        for (let j = 0; j < newData.length; j++) {
+            if (newData[j].elements === undefined) {
+                if (newData[j].attributes.phone_number === undefined) {
+                    localTemplate.location.human_address = newData[j].attributes.human_address || "";
+                    localTemplate.location.longitude = newData[j].attributes.longitude || "";
+                    localTemplate.location.latitude = newData[j].attributes.latitude || "";
+                } else {
+                    localTemplate.phone_number = newData[j].attributes.phone_number || "";
+                }
+            } else {
+                localTemplate[newData[j].name] = newData[j].elements[0].text || "";
+            }
+        }
+        if (!knownIDs.includes(localTemplate.provider_id)) {
+            newHospitals.push(localTemplate);
+            knownIDs.push(localTemplate.provider_id);
+        }
+    }
+    
+    await Hospital.insertMany(newHospitals)
         .then(response => res.json(response))
         .catch(err => errorHandler.createError(400, err.code, res, err.message))
 };
