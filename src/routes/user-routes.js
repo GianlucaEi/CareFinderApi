@@ -20,7 +20,7 @@ router.post('/login', userController.login);
 /**
  * Router delete routes
  */
-router.delete('/deleteAllUsers', userController.deleteAllUsers);
-router.delete('/delete/user/:email', userController.deleteSpecificUser);
+router.delete('/deleteAllUsers', verifyToken, verifyAdmin, userController.deleteAllUsers);
+router.delete('/delete/user/:email', verifyToken, verifyAdmin, userController.deleteSpecificUser);
 
 module.exports = router;

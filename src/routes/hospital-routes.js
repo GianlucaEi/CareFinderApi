@@ -4,20 +4,21 @@ let hospitalController = require('../controllers/hospital-controller');
 const {verifyToken, verifyAdmin} = require('../middleware/authHandler');
 
 /* GET hospitals listing. */
-router.get('/', hospitalController.findAllHospitals);
-router.get('/id/:providerId', hospitalController.lookupByProviderId);
-router.get('/city/:cityName', hospitalController.lookupByCity);
-router.get('/state/:stateName', hospitalController.lookupByState);
-router.get('/county/:countyName', hospitalController.lookupByCounty);
-router.get('/city_state/:cityName/:stateName', hospitalController.lookupByCityState);
-router.get('/name/:hospitalName', hospitalController.lookupByHospitalName);
-router.get('/type/:hospitalType', hospitalController.lookupByHospitalType);
-router.get('/ownership/:hospitalOwner', hospitalController.lookupByHospitalOwner);
-router.get('/emergency/:hospitalEmergency', hospitalController.lookupByHospitalEmergency);
+router.get('/', verifyToken, hospitalController.findAllHospitals);
+router.get('/id/:providerId', verifyToken, hospitalController.lookupByProviderId);
+router.get('/city/:cityName', verifyToken, hospitalController.lookupByCity);
+router.get('/state/:stateName', verifyToken, hospitalController.lookupByState);
+router.get('/county/:countyName', verifyToken, hospitalController.lookupByCounty);
+router.get('/city_state/:cityName/:stateName', verifyToken, hospitalController.lookupByCityState);
+router.get('/name/:hospitalName', verifyToken, hospitalController.lookupByHospitalName);
+router.get('/type/:hospitalType', verifyToken, hospitalController.lookupByHospitalType);
+router.get('/ownership/:hospitalOwner', verifyToken, hospitalController.lookupByHospitalOwner);
+router.get('/emergency/:hospitalEmergency', verifyToken, hospitalController.lookupByHospitalEmergency);
 /* GET hospitals listing end. */
 
 /* POST hospitals listing. */
-router.post('/', verifyToken, verifyAdmin, hospitalController.store);
+router.post('/json', verifyToken, verifyAdmin, hospitalController.storeJSON);
+router.post('/xml', verifyToken, verifyAdmin, hospitalController.storeXML);
 /* POST hospitals listing end. */
 
 /* DELETE hospitals listing. */

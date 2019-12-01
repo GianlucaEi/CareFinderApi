@@ -8,6 +8,7 @@ const definition = new schema ({
     'email': {type: String, trim: true, required: errorMessages.error.MISSING_EMAIL},
     'password': {type: String, trim: true,required: errorMessages.error.MISSING_PASSWORD},
     'admin': {type: Boolean, default: false},
+    'customID': {type: String, default: ""}
 });
 
 const options = {
