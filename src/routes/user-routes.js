@@ -1,20 +1,21 @@
 let express = require('express');
 let router = express.Router();
 const userController = require('../controllers/user-controller');
-const {verifyToken, verifyAdmin} = require('../middleware/authHandler');
+const {validToken, verifyToken, verifyAdmin} = require('../middleware/authHandler');
 
 /**
  * Router get routes
  */
+router.get('/token', validToken);
 router.get('/logout', userController.logout);
 router.get('/me', verifyToken ,userController.me);
 router.get('/getAllUsers', verifyToken, verifyAdmin, userController.getAllUser);
-
+;
 /**
  * Router post routes
  */
 router.post('/register', userController.store);
-//router.post('/registerAdmin', verifyToken, verifyAdmin, userController.store);
+router.post('/registerAdmin', verifyToken, verifyAdmin, userController.storeAdmin);
 router.post('/login', userController.login);
 
 /**

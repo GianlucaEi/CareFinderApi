@@ -13,6 +13,24 @@ exports.store = async (req, res) => {
         const user = new User(req.body);
         user.password = hashedPassword;
         user.customID = uuid;
+        user.admin = false;
+        
+        await user.save().then(() => {
+            res.status(201).send("User Created");
+        }).catch(reason => res.send(reason));
+    } catch (err) {
+        errorHandler.createError(400, err.code, res, err.message)
+    }
+};
+
+exports.storeAdmin = async (req, res) => {
+    try {
+        let uuid = await UUID();
+        let hashedPassword = await bcrypt.hashSync(req.body.password, 8);
+        
+        const user = new User(req.body);
+        user.password = hashedPassword;
+        user.customID = uuid;
         
         await user.save().then(() => {
             res.status(201).send("User Created");
@@ -43,7 +61,7 @@ exports.login = async (req, res) => {
                 let token = jwt.sign({id: response._id}, config.secret, {
                     expiresIn: 86400 // expires in 24 hours
                 });
-                res.status(200).send({auth: true, token: token});
+                res.status(200).send({auth: true, token: token, admin: response.admin});
             }
         }).catch(reason => res.send(reason));
     } catch (e) {

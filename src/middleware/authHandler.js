@@ -32,3 +32,22 @@ exports.verifyToken = async (req, res, next) => {
         console.error(e)
     }
 };
+
+exports.validToken = async (req, res) => {
+    try {
+        let token = req.headers['x-access-token'];
+        if (!token) {
+            errorHandler.createError(403, 'no-token', res);
+        } else {
+            jwt.verify(token, config.secret, function (err) {
+                if (err) {
+                    res.status(401).json({valid: false, auth: false, message: 'Token is Invalid'});
+                } else {
+                    res.status(201).json({valid: true, auth: true, message: 'Token is Valid'});
+                }
+            });
+        }
+    } catch (e) {
+        console.error(e)
+    }
+};
