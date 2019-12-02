@@ -1,18 +1,15 @@
 const User = require('../models/user-model');
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
-const UUID = require("uuid-v4");
 let config = require('../config/config');
 let errorHandler = require("../middleware/error-handlers");
 
 exports.store = async (req, res) => {
     try {
-        let uuid = await UUID();
         let hashedPassword = await bcrypt.hashSync(req.body.password, 8);
         
         const user = new User(req.body);
         user.password = hashedPassword;
-        user.customID = uuid;
         user.admin = false;
         
         await user.save().then(() => {
@@ -25,12 +22,10 @@ exports.store = async (req, res) => {
 
 exports.storeAdmin = async (req, res) => {
     try {
-        let uuid = await UUID();
         let hashedPassword = await bcrypt.hashSync(req.body.password, 8);
         
         const user = new User(req.body);
         user.password = hashedPassword;
-        user.customID = uuid;
         
         await user.save().then(() => {
             res.status(201).send("User Created");
