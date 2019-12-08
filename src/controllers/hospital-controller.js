@@ -39,7 +39,7 @@ exports.storeXML = async (req, res) => {
         for (let i = 0; i < hospitals.length; i++) {
             knownIDs.push(hospitals[i].provider_id)
         }
-    
+        
         let xmlData = JSON.parse(convert.xml2json(req.body.xml));
         let data = xmlData.elements[0].elements[0].elements;
         for (let i = 0; i < data.length; i++) {
@@ -65,8 +65,9 @@ exports.storeXML = async (req, res) => {
     
         await Hospital.insertMany(newHospitals)
             .then(response => res.json(response))
-            .catch(err => errorHandler.createError(400, err.code, res, err.message))
+            .catch(err => {console.log(err);errorHandler.createError(400, err.code, res, err.message)})
     } catch (err) {
+        console.log(err);
         errorHandler.createError(400, err.code, res, err.message)
     }
 };

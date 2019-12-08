@@ -5,7 +5,7 @@ let router = express.Router();
  * Shows API Version & Info
  * GET /
  */
-router.get("/",  async (req, res) => {
+router.get("/", async (req, res) => {
     res.status(200).send({
         "name": "CareFinderApi",
         "developer": "Client/Server Dev",

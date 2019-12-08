@@ -9,7 +9,7 @@ const definition = new schema ({
     'city': {type: String, trim: true, required: errorMessages.error.MISSING_CITY},
     'state': {type: String, trim: true, required: errorMessages.error.MISSING_STATE},
     'zip_code': {type: String, trim: true, required: errorMessages.error.MISSING_ZIPCODE},
-    'county_name': {type: String, trim: true, required: errorMessages.error.MISSING_COUNTY},
+    'county_name': {type: String, trim: true},
     'phone_number': {type: String, trim: true, required: errorMessages.error.MISSING_PHONE_NUMBER},
     'hospital_type': { type: String, trim: true, required: errorMessages.error.MISSING_HOSPITAL_TYPE},
     'hospital_ownership': { type: String, trim: true, required: errorMessages.error.MISSING_HOSPITAL_OWNERSHIP},

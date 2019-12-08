@@ -10,7 +10,7 @@ router.get('/token', validToken);
 router.get('/logout', userController.logout);
 router.get('/me', verifyToken ,userController.me);
 router.get('/getAllUsers', verifyToken, verifyAdmin, userController.getAllUser);
-;
+
 /**
  * Router post routes
  */

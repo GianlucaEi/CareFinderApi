@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.9",
     "morgan": "latest",
+    "uuid-v4": "^0.1.0",
     "xml-js": "^1.6.11"
   },
   "engines": {

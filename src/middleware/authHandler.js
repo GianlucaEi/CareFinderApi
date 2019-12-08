@@ -20,6 +20,7 @@ exports.verifyToken = async (req, res, next) => {
         } else {
             jwt.verify(token, config.secret, function (err, decoded) {
                 if (err) {
+                    console.log(err);
                     res.status(401).json({auth: false, message: 'Failed to authenticate token.'});
                 } else {
                     // if everything good, save to request for use in other routes
