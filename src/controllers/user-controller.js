@@ -28,6 +28,7 @@ exports.storeAdmin = async (req, res) => {
         user.password = hashedPassword;
         
         await user.save().then(user => {
+            user.password = null;
             res.status(201).json(user);
         }).catch(reason => res.send(reason));
     } catch (err) {
