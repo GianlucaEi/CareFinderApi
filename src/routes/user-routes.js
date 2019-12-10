@@ -22,6 +22,6 @@ router.post('/login', userController.login);
  * Router delete routes
  */
 router.delete('/deleteAllUsers', verifyToken, verifyAdmin, userController.deleteAllUsers);
-router.delete('/delete/user/:email', verifyToken, verifyAdmin, userController.deleteSpecificUser);
+router.delete('/delete/id/:id/email/:email', verifyToken, verifyAdmin, userController.deleteSpecificUser);
 
 module.exports = router;

@@ -85,7 +85,8 @@ exports.deleteAllUsers = async (req, res) => {
 };
 
 exports.deleteSpecificUser = async (req, res) => {
-    await User.delete({
+    await User.deleteMany({
+        id: req.params.id,
         email: req.params.email
     }).exec()
         .then(res.status(204).send())
