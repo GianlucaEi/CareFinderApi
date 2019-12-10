@@ -27,8 +27,8 @@ exports.storeAdmin = async (req, res) => {
         const user = new User(req.body);
         user.password = hashedPassword;
         
-        await user.save().then(() => {
-            res.status(201).send("User Created");
+        await user.save().then(user => {
+            res.status(201).json(user);
         }).catch(reason => res.send(reason));
     } catch (err) {
         errorHandler.createError(400, err.code, res, err.message)
