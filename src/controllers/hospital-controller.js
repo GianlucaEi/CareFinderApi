@@ -31,11 +31,11 @@ exports.storeJSON = async (req, res) => {
 exports.storeXML = async (req, res) => {
     try {
         let knownIDs = [], newHospitals = [], hospitals = [];
-    
+        
         await Hospital.find().exec()
             .then(response => hospitals = response)
             .catch(err => errorHandler.createError(400, err.code, res, err.message));
-    
+        
         for (let i = 0; i < hospitals.length; i++) {
             knownIDs.push(hospitals[i].provider_id)
         }
@@ -62,10 +62,13 @@ exports.storeXML = async (req, res) => {
                 knownIDs.push(localTemplate.provider_id);
             }
         }
-    
+        
         await Hospital.insertMany(newHospitals)
             .then(response => res.json(response))
-            .catch(err => {console.log(err);errorHandler.createError(400, err.code, res, err.message)})
+            .catch(err => {
+                console.log(err);
+                errorHandler.createError(400, err.code, res, err.message)
+            })
     } catch (err) {
         console.log(err);
         errorHandler.createError(400, err.code, res, err.message)
@@ -104,7 +107,7 @@ exports.lookupByState = async (req, res) => {
 };
 
 exports.lookupByCounty = async (req, res) => {
-    const hospital = await Hospital.find({
+    await Hospital.find({
         county_name: {$regex: req.params.countyName, $options: 'i'}
     }).exec()
         .then(response => res.json(response))
@@ -112,7 +115,7 @@ exports.lookupByCounty = async (req, res) => {
 };
 
 exports.lookupByCityState = async (req, res) => {
-    const hospital = await Hospital.find({
+    await Hospital.find({
         city: {$regex: req.params.cityName, $options: 'i'},
         state: {$regex: req.params.stateName, $options: 'i'}
     }).exec()
@@ -121,7 +124,7 @@ exports.lookupByCityState = async (req, res) => {
 };
 
 exports.lookupByHospitalName = async (req, res) => {
-    const hospital = await Hospital.find({
+    await Hospital.find({
         hospital_name: {$regex: req.params.hospitalName, $options: 'i'}
     }).exec()
         .then(response => res.json(response))
@@ -129,7 +132,7 @@ exports.lookupByHospitalName = async (req, res) => {
 };
 
 exports.lookupByHospitalType = async (req, res) => {
-    const hospital = await Hospital.find({
+    await Hospital.find({
         hospital_type: {$regex: req.params.hospitalType, $options: 'i'}
     }).exec()
         .then(response => res.json(response))
@@ -137,7 +140,7 @@ exports.lookupByHospitalType = async (req, res) => {
 };
 
 exports.lookupByHospitalOwner = async (req, res) => {
-    const hospital = await Hospital.find({
+    await Hospital.find({
         hospital_ownership: {$regex: req.params.hospitalOwner, $options: 'i'}
     }).exec()
         .then(response => res.json(response))
@@ -145,11 +148,14 @@ exports.lookupByHospitalOwner = async (req, res) => {
 };
 
 exports.lookupByHospitalEmergency = async (req, res) => {
-    await Hospital.find({
-        emergency_services: {$regex: req.params.hospitalEmergency, $options: 'i'}
-    }).exec()
+    let localSearch = req.params.hospitalEmergency === true;
+    console.log(localSearch)
+    await Hospital.find({emergency_services: localSearch}).exec()
         .then(response => res.json(response))
-        .catch(err => errorHandler.createError(400, err.code, res, err.message))
+        .catch(err => {
+            console.log(err);
+            errorHandler.createError(400, err.code, res, err.message)
+        })
 };
 
 exports.deleteAllHospitals = async (req, res) => {

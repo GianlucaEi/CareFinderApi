@@ -4,7 +4,7 @@ const userController = require('../controllers/user-controller');
 const {validToken, verifyToken, verifyAdmin} = require('../middleware/authHandler');
 
 /**
- * Router get routes
+ * Router get    routes
  */
 router.get('/token', validToken);
 router.get('/logout', userController.logout);
