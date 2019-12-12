@@ -123,6 +123,20 @@ exports.lookupByCityState = async (req, res) => {
         .catch(err => errorHandler.createError(400, err.code, res, err.message))
 };
 
+exports.lookupByCityStateMobile = async (req, res) => {
+    let arrrrr = req.params.cityNameStateName;
+    arrrrr = decodeURIComponent(arrrrr);
+    console.log(arrrrr);
+    arrrrr = arrrrr.split(" ");
+    console.log(arrrrr);
+    await Hospital.find({
+        city: {$regex: arrrrr[0], $options: 'i'},
+        state: {$regex: arrrrr[1], $options: 'i'}
+    }).exec()
+        .then(response => res.json(response))
+        .catch(err => errorHandler.createError(400, err.code, res, err.message))
+};
+
 exports.lookupByHospitalName = async (req, res) => {
     await Hospital.find({
         hospital_name: {$regex: req.params.hospitalName, $options: 'i'}

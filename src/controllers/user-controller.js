@@ -32,6 +32,7 @@ exports.storeAdmin = async (req, res) => {
             res.status(201).json(user);
         }).catch(reason => res.send(reason));
     } catch (err) {
+        console.log(err);
         errorHandler.createError(400, err.code, res, err.message)
     }
 };

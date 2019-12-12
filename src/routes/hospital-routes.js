@@ -10,6 +10,7 @@ router.get('/city/:cityName', verifyToken, hospitalController.lookupByCity);
 router.get('/state/:stateName', verifyToken, hospitalController.lookupByState);
 router.get('/county/:countyName', verifyToken, hospitalController.lookupByCounty);
 router.get('/city_state/:cityName/:stateName', verifyToken, hospitalController.lookupByCityState);
+router.get('/city_state/:cityNameStateName', verifyToken, hospitalController.lookupByCityStateMobile);
 router.get('/name/:hospitalName', verifyToken, hospitalController.lookupByHospitalName);
 router.get('/type/:hospitalType', verifyToken, hospitalController.lookupByHospitalType);
 router.get('/ownership/:hospitalOwner', verifyToken, hospitalController.lookupByHospitalOwner);
