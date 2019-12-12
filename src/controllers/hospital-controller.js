@@ -149,7 +149,6 @@ exports.lookupByHospitalOwner = async (req, res) => {
 
 exports.lookupByHospitalEmergency = async (req, res) => {
     let localSearch = req.params.hospitalEmergency === true;
-    console.log(localSearch)
     await Hospital.find({emergency_services: localSearch}).exec()
         .then(response => res.json(response))
         .catch(err => {
