@@ -152,7 +152,6 @@ exports.lookupByHospitalEmergency = async (req, res) => {
     await Hospital.find({emergency_services: localSearch}).exec()
         .then(response => res.json(response))
         .catch(err => {
-            console.log(err);
             errorHandler.createError(400, err.code, res, err.message)
         })
 };
