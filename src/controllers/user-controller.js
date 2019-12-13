@@ -12,8 +12,11 @@ exports.store = async (req, res) => {
         user.password = hashedPassword;
         user.admin = false;
         
-        await user.save().then(() => {
-            res.status(201).send("User Created");
+        await user.save().then(user => {
+            let token = jwt.sign({id: user._id}, config.secret, {
+                expiresIn: 86400 // expires in 24 hours
+            });
+            res.status(201).send({auth: true, token: token, admin: user.admin});
         }).catch(reason => res.send(reason));
     } catch (err) {
         errorHandler.createError(400, err.code, res, err.message)
