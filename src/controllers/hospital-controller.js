@@ -158,13 +158,9 @@ exports.lookupByHospitalOwner = async (req, res) => {
 };
 
 exports.lookupByHospitalEmergency = async (req, res) => {
-    let localSearch = req.params.hospitalEmergency === true;
-    await Hospital.find({emergency_services: localSearch}).exec()
+    await Hospital.find({ emergency_services: req.params.hospitalEmergency }).exec()
         .then(response => res.json(response))
-        .catch(err => {
-            errorHandler.createError(400, err.code, res, err.message)
-        })
-};
+        .catch(err => errorHandler.createError(400, err.code, res, err.message)) };
 
 exports.deleteAllHospitals = async (req, res) => {
     await Hospital.deleteMany({}).exec()
