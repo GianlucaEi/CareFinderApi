@@ -158,9 +158,10 @@ exports.lookupByHospitalOwner = async (req, res) => {
 };
 
 exports.lookupByHospitalEmergency = async (req, res) => {
-    await Hospital.find({ emergency_services: req.params.hospitalEmergency }).exec()
+    await Hospital.find({emergency_services: req.params.hospitalEmergency}).exec()
         .then(response => res.json(response))
-        .catch(err => errorHandler.createError(400, err.code, res, err.message)) };
+        .catch(err => errorHandler.createError(400, err.code, res, err.message))
+};
 
 exports.deleteAllHospitals = async (req, res) => {
     await Hospital.deleteMany({}).exec()
@@ -247,4 +248,24 @@ exports.updateById = async (req, res) => {
     }, req.body).exec()
         .then(response => res.json(response))
         .catch(err => errorHandler.createError(400, err.code, res, err.message))
+};
+
+exports.geo = async (req, res) => {
+    await Hospital.find({location :
+            { $nearSphere :{
+                    $geometry: {
+                        type : "Point",
+                        location : { longitude, latitude}
+                    },
+                    $maxDistance: 5000
+                }
+            }
+    }).then(response => {
+        console.log(response);
+        res.json(response)
+    })
+        .catch(err => {
+            console.log(err);
+            errorHandler.createError(400, err.code, res, err.message)
+        })
 };
